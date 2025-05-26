@@ -18,7 +18,8 @@ export const createApiUser = async () => {
       {
         headers: {
           "X-Reference-Id": userId,
-          "Ocp-Apim-Subscription-Key": process.env.COLLECTIONS_SUBSCRIPTION_KEY,
+          "Ocp-Apim-Subscription-Key":
+            process.env.DISBURSEMENTS_SUBSCRIPTION_KEY,
           "Content-Type": "application/json",
         },
       }
