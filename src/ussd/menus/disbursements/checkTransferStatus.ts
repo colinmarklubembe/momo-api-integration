@@ -3,12 +3,10 @@ import { getAccessToken, checkTransferStatus } from "../../../disbursements";
 export const checkTransferStatusMenu = async (input: string[]) => {
   const level = input.length;
 
-  // Step 1: Ask for transfer reference ID
   if (level === 2) {
     return "CON Enter transfer reference ID to check status:";
   }
 
-  // Step 2: Validate and fetch status
   const referenceId = input[2]?.trim();
   if (!referenceId || referenceId.length < 5) {
     return "CON Invalid reference ID. Please enter a valid transfer reference ID:";
