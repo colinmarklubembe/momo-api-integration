@@ -4,12 +4,12 @@ dotenv.config();
 
 import { getAccessToken } from "./generateAccessToken";
 
-const getTransactionStatus = async (
+export const getTransactionStatus = async (
   accessToken: string,
   transactionId: string
 ) => {
   try {
-    const response = await axios.get(
+    const { data } = await axios.get(
       `${process.env.BASE_URL}/collection/v1_0/requesttopay/${transactionId}`,
       {
         headers: {
@@ -19,17 +19,18 @@ const getTransactionStatus = async (
         },
       }
     );
-    console.log(`Transaction Status: ${response.data.status}`);
+
+    console.log("Transaction status retrieved successfully:", data);
+    return data;
   } catch (error: any) {
     console.error(
       "Error retrieving transaction status:",
       error.response?.data || error.message
     );
+    throw new Error(
+      `Failed to retrieve transaction status: ${
+        error.response?.data || error.message
+      }`
+    );
   }
 };
-
-getAccessToken().then((token) => {
-  if (token) {
-    getTransactionStatus(token, "c61aea94-53f5-4081-8aab-cd761f0aa416");
-  }
-});

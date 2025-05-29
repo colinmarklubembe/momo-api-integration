@@ -2,7 +2,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config();
 
-const getApiKey = async (userId: string) => {
+export const getApiKey = async (userId: string) => {
   try {
     const response = await axios.post(
       `${process.env.BASE_URL}/v1_0/apiuser/${userId}/apikey`,
@@ -23,4 +23,4 @@ const getApiKey = async (userId: string) => {
   }
 };
 
-getApiKey(process.env.DISBURSEMENTS_API_USER_ID as string);
+// getApiKey(process.env.DISBURSEMENTS_API_USER_ID as string);

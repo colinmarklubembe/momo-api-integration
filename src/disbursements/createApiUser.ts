@@ -33,4 +33,4 @@ export const createApiUser = async () => {
   }
 };
 
-createApiUser();
+// createApiUser();

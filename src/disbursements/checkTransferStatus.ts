@@ -4,12 +4,12 @@ dotenv.config();
 
 import { getAccessToken } from "./generateAccessToken";
 
-const checkTransferStatus = async (
+export const checkTransferStatus = async (
   accessToken: string,
   referenceId: string
 ) => {
   try {
-    const response = await axios.get(
+    const { data } = await axios.get(
       `${process.env.BASE_URL}/disbursement/v1_0/transfer/${referenceId}`,
       {
         headers: {
@@ -20,18 +20,18 @@ const checkTransferStatus = async (
         },
       }
     );
-    console.log("Transfer Status:", response.data);
+
+    console.log("Transfer Status:", data);
+    return data;
   } catch (error: any) {
     console.error(
       "Error checking transfer status:",
       error.response?.data || error.message
     );
+    throw new Error(
+      `Failed to check transfer status: ${
+        error.response?.data?.message || error.message
+      }`
+    );
   }
 };
-
-getAccessToken().then((token: string) => {
-  if (token) {
-    const referenceId = "885453c4-4e0b-4a90-acde-0fb52714fc58";
-    checkTransferStatus(token, referenceId);
-  }
-});

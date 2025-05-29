@@ -4,9 +4,9 @@ dotenv.config();
 
 import { getAccessToken } from "./generateAccessToken";
 
-const getAccountBalance = async (accessToken: string) => {
+export const getAccountBalance = async (accessToken: string) => {
   try {
-    const response = await axios.get(
+    const { data } = await axios.get(
       `${process.env.BASE_URL}/disbursement/v1_0/account/balance`,
       {
         headers: {
@@ -17,17 +17,18 @@ const getAccountBalance = async (accessToken: string) => {
         },
       }
     );
-    console.log("Account Balance:", response.data);
+
+    console.log("Account Balance:", data);
+    return data;
   } catch (error: any) {
     console.error(
       "Error retrieving account balance:",
       error.response?.data || error.message
     );
+    throw new Error(
+      `Failed to retrieve account balance: ${
+        error.response?.data?.message || error.message
+      }`
+    );
   }
 };
-
-getAccessToken().then((token: string) => {
-  if (token) {
-    getAccountBalance(token);
-  }
-});

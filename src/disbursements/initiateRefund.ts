@@ -5,7 +5,7 @@ dotenv.config();
 
 import { getAccessToken } from "./generateAccessToken";
 
-const initiateRefund = async (
+export const initiateRefund = async (
   accessToken: string,
   amount: string,
   currency: string,
@@ -16,7 +16,7 @@ const initiateRefund = async (
 ) => {
   const refundReferenceId = uuidv4();
   try {
-    await axios.post(
+    const { data } = await axios.post(
       `${process.env.BASE_URL}/disbursement/v1_0/refund`,
       {
         amount,
@@ -37,31 +37,16 @@ const initiateRefund = async (
         },
       }
     );
-    console.log(`Refund initiated with Reference ID: ${refundReferenceId}`);
+    return data;
   } catch (error: any) {
     console.error(
       "Error initiating refund:",
       error.response?.data || error.message
     );
-  }
-};
-
-getAccessToken().then((token: string) => {
-  if (token) {
-    const amount = "1000";
-    const currency = "EUR";
-    const externalId = "123456";
-    const referenceIdToRefund = "885453c4-4e0b-4a90-acde-0fb52714fc58";
-    const payerMessage = "Refund for transaction";
-    const payeeNote = "Refund processed";
-    initiateRefund(
-      token,
-      amount,
-      currency,
-      externalId,
-      referenceIdToRefund,
-      payerMessage,
-      payeeNote
+    throw new Error(
+      `Failed to initiate refund: ${
+        error.response?.data?.message || error.message
+      }`
     );
   }
-});
+};

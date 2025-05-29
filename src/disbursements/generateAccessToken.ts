@@ -17,14 +17,17 @@ export const getAccessToken = async () => {
         },
       }
     );
-    console.log(`Access Token: ${response.data.access_token}`);
+
     return response.data.access_token;
   } catch (error: any) {
     console.error(
       "Error generating access token:",
       error.response?.data || error.message
     );
+    throw new Error(
+      `Failed to generate access token: ${
+        error.response?.data?.message || error.message
+      }`
+    );
   }
 };
-
-getAccessToken();

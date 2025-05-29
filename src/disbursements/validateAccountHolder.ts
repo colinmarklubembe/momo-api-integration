@@ -4,7 +4,7 @@ dotenv.config();
 
 import { getAccessToken } from "./generateAccessToken";
 
-const validateAccountHolder = async (
+export const validateAccountHolder = async (
   accessToken: string,
   accountHolderIdType: "MSISDN" | "EMAIL" | "PARTY_CODE",
   accountHolderId: string
@@ -27,13 +27,10 @@ const validateAccountHolder = async (
       "Error validating account holder:",
       error.response?.data || error.message
     );
+    throw new Error(
+      `Failed to validate account holder: ${
+        error.response?.data?.message || error.message
+      }`
+    );
   }
 };
-
-getAccessToken().then((token: string) => {
-  if (token) {
-    const accountHolderIdType = "MSISDN";
-    const accountHolderId = "256759525561";
-    validateAccountHolder(token, accountHolderIdType, accountHolderId);
-  }
-});
