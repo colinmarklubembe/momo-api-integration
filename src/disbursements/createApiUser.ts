@@ -30,6 +30,9 @@ export const createApiUser = async () => {
       "Error creating API user:",
       error.response?.data || error.message
     );
+    throw new Error(
+      `Failed to create API user: ${error.response?.data || error.message}`
+    );
   }
 };
 

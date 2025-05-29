@@ -1,4 +1,13 @@
-export const formatTransactionStatus = (data: any): string => {
+interface TransactionData {
+  status: string;
+  amount?: number | string;
+  payer?: {
+    partyId?: string;
+  };
+  payerMessage?: string;
+}
+
+export const formatTransactionStatus = (data: TransactionData): string => {
   return [
     `Status: ${data.status}`,
     data.amount ? `Amount: UGX ${data.amount}` : null,
